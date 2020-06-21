@@ -42,9 +42,10 @@ namespace BattlefieldEarth
             Console.WriteLine("Command your country's military to attack and defend against your enemies.\n");
 
             //1. create a country
-            Military military = new Military(2000, 5000, 10000, 5000, 2000, 10);
-            Government playerGov = new Government(GovernmentType.Democracy);
-            Country playerCountry = new Country(5000, 10000, "Cobra Empire", 100, 70, playerGov, military);
+            Country playerCountry = new Country(5000, 10000, "Cobra Empire", 100, 70, 
+                new Government(GovernmentType.Democracy), 
+                new Military(2000, 5000, 10000, 5000, 2000, 10)
+                );
 
             //2. create a loop for the country location
             bool exit = false;
@@ -53,8 +54,30 @@ namespace BattlefieldEarth
                 //3. create a room - write a () to get a room description
                 Console.WriteLine($"Your opponent: {FindCountry()}");
 
-                //TODO 4. create an opponent 
-                //we need to learn about creating objects and then probably randomly select one
+                //4. create an opponent 
+                Country npcCountry = new Country(500, 250, "Dreadful Crayon", 100, 10,
+                    new Government(GovernmentType.Dictatorship),
+                    new Military(500, 1000, 2000, 3000, 500, 1)
+                    );
+                Country npcCountry2 = new Country(1000, 900, "Furious Balcony", 100, 20,
+                    new Government(GovernmentType.Fascism),
+                    new Military(1000, 5000, 10000, 5000, 2000, 3)
+                    );
+                Country npcCountry3 = new Country(2000, 1900, "Hordes of Darg", 100, 30,
+                    new Government(GovernmentType.Monarchy),
+                    new Military(1500, 10000, 10000, 7000, 3000, 7)
+                    );
+                Country npcCountry4 = new Country(5000, 4999, "Pointless Planet", 100, 40,
+                    new Government(GovernmentType.Republic),
+                    new Military(2000, 15000, 10000, 9000, 5000, 10)
+                    );
+
+                Country[] npcCountries = { npcCountry, npcCountry2, npcCountry3, npcCountry4 };
+
+                //pick a random country
+                Random rand = new Random();
+                int randomNbr = rand.Next(npcCountries.Length);
+                Country enemyNpcCountry = npcCountries[randomNbr];
 
                 //5 create a loop for the menu
                 bool reload = false;
@@ -87,8 +110,9 @@ namespace BattlefieldEarth
                             //TODO 15. Handle if the player wins
                             break;
                         case ConsoleKey.S:
-                            Console.WriteLine("This spy operation will provide you with detailed information about your opponent");
-                            //TODO 15. Need to print out monster info
+                            Console.WriteLine("~~~ Spy Room ~~~");
+                            //TODO 15. Need to add in spy mechanic based on # of spies success or fail.
+                            Console.WriteLine(enemyNpcCountry);
                             break;
                         case ConsoleKey.R:
                             Console.WriteLine("Retreat!");
