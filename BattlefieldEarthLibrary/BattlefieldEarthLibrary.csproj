@@ -41,6 +41,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Battle.cs" />
     <Compile Include="Country.cs" />
     <Compile Include="Government.cs" />
     <Compile Include="GovernmentType.cs" />

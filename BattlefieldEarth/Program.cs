@@ -41,20 +41,22 @@ namespace BattlefieldEarth
             #endregion
             Console.WriteLine("Command your country's military to attack and defend against your enemies.\n");
 
-            //1. create a country
-            Country playerCountry = new Country(5000, 10000, "Cobra Empire", 100, 70, 
+            //create a country
+            Country playerCountry = new Country(10000, 2000, "Cobra Empire", 100, 70, 
                 new Government(GovernmentType.Democracy), 
                 new Military(2000, 5000, 10000, 5000, 2000, 10)
                 );
 
-            //2. create a loop for the country location
+            int defeated = 0;
+
+            //create a loop for the country location
             bool exit = false;
             do
             {
-                //3. create a room - write a () to get a room description
+                //create a country
                 Console.WriteLine($"Your opponent: {FindCountry()}");
 
-                //4. create an opponent 
+                //Create an opponent 
                 Country npcCountry = new Country(500, 250, "Dreadful Crayon", 100, 10,
                     new Government(GovernmentType.Dictatorship),
                     new Military(500, 1000, 2000, 3000, 500, 1)
@@ -79,45 +81,57 @@ namespace BattlefieldEarth
                 int randomNbr = rand.Next(npcCountries.Length);
                 Country enemyNpcCountry = npcCountries[randomNbr];
 
-                //5 create a loop for the menu
+                //Create a loop for the menu
                 bool reload = false;
                 do
                 {
-                    //6 create a menu of options that tells the player what they can do
+                    //Create a menu of options that tells the player what they can do
                     #region MENU
                     Console.WriteLine("\nWhat is your next move?\n" +
                         "V) Visit Country Advisor\n" +
-                        "W) War Room\n" +
+                        "A) Attack\n" +
                         "S) Spy on Enemy\n" +
                         "R) Retreat\n" +
                         "X) Exit");
 
-                    //7 Catch the users input
+                    //Catch the users input
                     ConsoleKey userChoice = Console.ReadKey(true).Key;
 
-                    //8 Clear the console after the user input to clean up the screen
+                    //Clear the console after the user input to clean up the screen
                     Console.Clear();
 
-                    //9 Build out a switch for userChoice
+                    //Build out a switch for userChoice
                     switch (userChoice)
                     {
                         case ConsoleKey.V:
-                            //TODO 10. View status of your country, Format it and stuff
+                            // View status of your country
                             Console.WriteLine(playerCountry);
                             break;
-                        case ConsoleKey.W:
-                            //TODO 14. Engage battle sequence
-                            //TODO 15. Handle if the player wins
+                        case ConsoleKey.A:
+                            //Engage battle sequence
+                            //Handle if the player wins
+                            Battle.WarSequence(playerCountry, enemyNpcCountry);
+                            if (enemyNpcCountry.Population <= 0)
+                            {
+                                Console.ForegroundColor = ConsoleColor.Green;
+                                Console.WriteLine($"\n{enemyNpcCountry.CountryName} has been defeated! They have no more civilans!\n");
+                                Console.ResetColor();
+                                reload = true;
+                                defeated++;
+                            }
                             break;
                         case ConsoleKey.S:
                             Console.WriteLine("~~~ Spy Room ~~~");
-                            //TODO 15. Need to add in spy mechanic based on # of spies success or fail.
                             Console.WriteLine(enemyNpcCountry);
                             break;
                         case ConsoleKey.R:
                             Console.WriteLine("Retreat!");
-                            //TODO 12. Handle running away and getting a new room
-                            //TODO 13. Monster gets a free attack
+                            //Retreat and getting a new Country
+                            //Civilans flee due to retreat
+                            int civsFlee = rand.Next(50, 101);
+                            playerCountry.Population -= civsFlee;
+                            Console.WriteLine($"{civsFlee} Civilians Flee your country!");
+                            reload = true;
                             break;
                         case ConsoleKey.X:
                             Console.WriteLine("You no longer wish to play this country");
@@ -129,8 +143,21 @@ namespace BattlefieldEarth
                     }
                     #endregion
 
-                } while (!exit && !reload); //while exit is NOT true AND reload is NOT true keep looping
+                    //Check playerCountry for population
+                    if (playerCountry.Population <= 0)
+                    {
+                        Console.WriteLine($"{playerCountry.CountryName} has been conquered!\n");
+                        exit = true;
+                    }
+
+                } while (!exit && !reload);
+
             } while (!exit);
+
+            Console.WriteLine("{0} {1}",
+                defeated < 1 ? "You didn't defeat anyone!" : "",
+                defeated > 1 ? $"You defeated {defeated} countries!" : ""
+                );
         }
 
         private static string FindCountry()

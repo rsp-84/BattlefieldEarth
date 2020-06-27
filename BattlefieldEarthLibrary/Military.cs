@@ -32,7 +32,7 @@ namespace BattlefieldEarthLibrary
         //methods
         public override string ToString()
         {
-            return string.Format("MILITARY FORCES:\nSpies: {0}\nTroops: {1}\nJets: {2}\nTurrets: {3}\nTanks: {4}\nMissiles: {5}\n",
+            return string.Format("Military Forces:\nSpies: {0:n0}\nTroops: {1:n0}\nJets: {2:n0}\nTurrets: {3:n0}\nTanks: {4:n0}\nMissiles: {5:n0}\n",
                 Spies,
                 Troops,
                 Jets,

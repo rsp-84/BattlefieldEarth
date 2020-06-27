@@ -70,7 +70,7 @@ namespace BattlefieldEarthLibrary
         public override string ToString()
         {
             return string.Format("::: The Country of {0} as of {1:d} :::\n\n{2}\n" +
-                "Population: {3}\n\n" +
+                "Population: {3:n0}\n\n" +
                 "{4}",
                 CountryName,
                 DateTime.Now,
@@ -78,6 +78,23 @@ namespace BattlefieldEarthLibrary
                 Population,
                 CountryMil
                 );
+        }
+
+        public int[] CalcDamage()
+        {
+            Random rand = new Random();
+
+            //poploss, spies lost, troops lost, turrets list, tanks lost
+            int[] damages = 
+            {
+                rand.Next(1, 301),
+                rand.Next(1, 301),
+                rand.Next(1, 301),
+                rand.Next(1, 301),
+                rand.Next(1, 301)
+            };
+
+            return damages;
         }
     }
 }
