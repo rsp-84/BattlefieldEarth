@@ -1,12 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace BattlefieldEarthLibrary
-{   //TODO handle negative units 
-    //Class to store methods for attacks
+{   //Class to store methods for attacks
     public class Battle
     {
         public static void WarSequence(Country playerCountry, Country enemyNpcCountry)
